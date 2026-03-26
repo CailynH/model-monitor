@@ -4,6 +4,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 import requests
 import datetime
 import uvicorn
+import os
 
 app = FastAPI()
 
@@ -104,5 +105,6 @@ def get_models():
 
 
 if __name__ == "__main__":
-    # 本地启动：python main.py
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    # 这里的 port 会优先读取云服务器的环境变量，如果没有则默认为 8000
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run(app, host="0.0.0.0", port=port)
